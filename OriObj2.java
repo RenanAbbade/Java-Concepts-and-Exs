@@ -18,7 +18,7 @@ public class Product {
 	}
 	
 	public void addProducts(int qtde) {
-		this.qtde = this.qtde - qtde;
+		this.qtde = this.qtde + qtde;
 		// palavra this = autoreferencia, quero acessar o atributo da classe e não o parametro quando ambos tem o mesmo nome, usando this me refiro ao atributo, sem this, me refiro ao parametro da função
 	}
 	
@@ -26,6 +26,12 @@ public class Product {
 		this.qtde = this.qtde - qtde;
 		
 	}
+	
+	public String toString() {
+		return nome + " preço, $"+ String.format("%.2f", preco)+ ", quantidade:  "+ String.format("%.0f",qtde) +
+	"| valor total: $"+String.format("%.2f",totalValue());
+	}
+	
 }
 _________________________________________________________________________________________________________________________________________
 package application;
@@ -60,12 +66,28 @@ public class Programa {
 		System.out.println("Entre com a quantidade em estoque do produto ");
 		product.qtde = sc.nextInt();
 		
-		
+		/*função .equals = retorna se um obj é igual a outro
+		 * getClass- Retorna o tipo da classe
+		 * hashCode - retorna um código hash do obj
+		 * toString converte o objeto para String
+		 * Cada um desses tipos é do tipo Object
+		 */
 		
 	
+		System.out.println(product.toString());
 		
+		//ADC PRODUTOS NO ESTOQUE
+		System.out.println("Entre com o número de produtos para ser adc no estoque ");
+		int qtde = sc.nextInt();
+		product.addProducts(qtde);
+		System.out.println("Dados atualizados: "+product.toString());
 		
-	
+		//EXC PRODUTOS DO ESTOQUE
+		System.out.println("Entre com o número de produtos para ser excluidos do estoque ");
+		qtde = sc.nextInt();
+		product.remove(qtde);
+		System.out.println("Dados atualizados: "+product.toString());
+		
 		
 		sc.close();
 
