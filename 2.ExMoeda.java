@@ -1,13 +1,13 @@
 /*2. (utilize Scanner, switch) Escreva um programa em Java que leia o custo de uma compra
 internacional e o tipo de moeda (1, 2 ou 3), sendo:
-1 - dÛlar americano
-2 ñ euro
+1 - d√≥lar americano
+2 ‚Äì euro
 3 - libra esterlina
-Mostre o tipo de moeda (dÛlar americano, euro ou libra esterlina) e
+Mostre o tipo de moeda (d√≥lar americano, euro ou libra esterlina) e
  o valor em reais da compra, conforme
-as cotaÁıes a seguir:
-Moeda CotaÁ„o
-DÛlar R$ 3,71
+as cota√ß√µes a seguir:
+Moeda Cota√ß√£o
+D√≥lar R$ 3,71
 Euro R$ 4,31
 Libra R$ 4,81 */
 import java.util.Scanner;
@@ -24,12 +24,12 @@ public class ex2 {
 		Scanner entrada = new Scanner(System.in);
 		custo = entrada.nextFloat();
 		
-		System.out.println("Em qual moeda deseja pagar? Digite 1 para DÛlar americano(DÛlar R$ 3,71) \n 2 para Euro(Euro R$ 4,31) \n 3 para Libra Esterlina(Libra R$ 4,81) \n ");
+		System.out.println("Em qual moeda deseja pagar? Digite 1 para D√≥lar americano(D√≥lar R$ 3,71) \n 2 para Euro(Euro R$ 4,31) \n 3 para Libra Esterlina(Libra R$ 4,81) \n ");
 		Scanner ent = new Scanner(System.in);
 		moeda = ent.nextInt();
 		
 		while(moeda<1 || moeda>3) {
-			System.out.println(" Digitou um n˙mero inv·lido! Por favor, Em qual moeda deseja pagar? digite 1 para DÛlar americano(DÛlar R$ 3,71) \n 2 para Euro(Euro R$ 4,31) \n 3 para Libra Esterlina(Libra R$ 4,81) \n ");
+			System.out.println(" Digitou um n√∫mero inv√°lido! Por favor, Em qual moeda deseja pagar? digite 1 para D√≥lar americano(D√≥lar R$ 3,71) \n 2 para Euro(Euro R$ 4,31) \n 3 para Libra Esterlina(Libra R$ 4,81) \n ");
 			Scanner enta = new Scanner(System.in);
 			moeda = enta.nextInt();
 			
@@ -37,15 +37,15 @@ public class ex2 {
 		switch(moeda) {
 		case 1:
 			dolar = custo*3.14;
-			System.out.println("O custo em reais da compra ser· "+String.format("%.2f", dolar)+" R$");
+			System.out.println("O custo em reais da compra ser√° "+String.format("%.2f", dolar)+" R$");
 			break;
 		case 2:
 			euro = custo*4.31;
-			System.out.println("O custo em reais da compra ser· "+String.format("%.2f", euro)+" R$");
+			System.out.println("O custo em reais da compra ser√° "+String.format("%.2f", euro)+" R$");
 			break;
 		case 3:
 			libra = custo*4.81;
-			System.out.println("O custo em reais da compra ser· "+String.format("%.2f", libra)+" R$");
+			System.out.println("O custo em reais da compra ser√° "+String.format("%.2f", libra)+" R$");
 			break;
 		}
 		
