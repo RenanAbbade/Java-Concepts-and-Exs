@@ -8,12 +8,13 @@ public class condicional {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Digite 3 números inteiros na mesma linha, separados por espaço");
 		String numeros = sc.nextLine();
-		String[] vect = numeros.split(" ");
+		String[] vect = numeros.split(" "); //O método split quebra uma String em várias substrings a partir
+							//de um caracter definido, no caso o espaço (" ")
 		String num1 = vect[0];
 		String num2 = vect[1];
 		String num3 = vect[2];
 		
-		int numero1 = Integer.parseInt(num1);
+		int numero1 = Integer.parseInt(num1); //Força transformação para um inteiro
 		int numero2 = Integer.parseInt(num2);
 		int numero3 = Integer.parseInt(num3);
 		
