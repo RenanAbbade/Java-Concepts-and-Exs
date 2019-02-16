@@ -3,8 +3,8 @@ import java.util.Scanner;
 /*
 (utilize Scanner, for, if) Escreva um programa em Java que entre com a idade e o peso de 5
 pessoas. Calcule e mostre:
-• a média de idade destas 5 pessoas;
-• a quantidade de pessoas com peso superior a 90 kg
+â€¢ a mÃ©dia de idade destas 5 pessoas;
+â€¢ a quantidade de pessoas com peso superior a 90 kg
  */
 public class ex1 {
     public static void main (String [] args){
@@ -32,5 +32,5 @@ public class ex1 {
         }         
     }
         media = total_idade/5;
-        System.out.println("Idade média = "+media+" quantidade de pessoas pesando mais que 90kg = "+ac);
+        System.out.println("Idade mÃ©dia = "+media+" quantidade de pessoas pesando mais que 90kg = "+ac);
     }}
