@@ -120,4 +120,79 @@ public class JavaApplication6 {
     }
     
 }
+
+_______________________________________________________________________________________________________________________________________
+
+/*
+
+
+
+
+ */
+package javaapplication6;
+
+import java.util.Random;
+
+/**
+ *
+ * @author Renan
+ */ 
+public class Banco {
+    private String numConta;
+    private String nomeTitular;
+    private double Saldo;
     
+    public Banco(){
+        //CONSTRUTOR PADRÃO:Este construtor permite que se mantenha todos os construtores diferentes, sendo possível a 
+        //utilização das diferentes versões do construtor.
+    }
+   
+    
+    public void setNomeTitular(String nomeTitular){
+        this.nomeTitular = nomeTitular;
+    }
+    
+    public String getNomeTitular(){
+        return nomeTitular;
+    }
+    
+    
+    public String getnumConta(){
+        gerarnumConta();
+        return numConta;
+    }
+    public void deposito(double valor){
+        this.Saldo = this.Saldo + valor;
+    }
+    
+    public void saque(double valor){
+        this.Saldo = this.Saldo - (valor + 5.00);
+    }
+    
+     public void gerarnumConta(){
+       //*Lógica para gerar a conta com 8 números aleatórios*
+        String conta = null;
+        Random sort = new Random();//Importando a classe nativa do Java Random
+        for ( int i = 0; i<9; i++){
+            conta = ""+ sort.nextInt(); //Concatenando inteiro com um valor String na variavel tipada em String
+                                         //Ao fazer isso, concatenar String + int em uma String não obtenho erros
+        }   
+        String numConta = conta.substring(1,9);//Tirando o espaço vazio utilizado na criação da String de randoms "conta".
+        this.numConta = numConta;
+    }
+    
+
+    public String toString(){
+        return " Número da conta: "
+                +numConta
+                +"\n Nome do titular: "
+                +nomeTitular +"\n Saldo atual: "
+                +Saldo;
+        
+    }
+    
+    
+    
+    
+}
+
