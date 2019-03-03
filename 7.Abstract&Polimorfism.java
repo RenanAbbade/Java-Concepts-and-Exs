@@ -36,7 +36,8 @@ public class Program {
 
 		
 
-		List<Shape> list = new ArrayList<>();
+		List<Shape> list = new ArrayList<>(); /* DEVE-SE sempre fazer uma lista do tipo da classe abstrata na qual todas as outras
+		classes extendam, sendo assim o casting é feito automaticamente no instanciação " lista.add( new class( ...));" */
 
 		
 
