@@ -1,6 +1,4 @@
 # JAVA
 Estudos e exercícios da linguagem de programação JAVA
 
-
-
-Indice por nível de aprendizado.
+LinkedIn: Renan Henrique da Silva Abbade (Software Developer)
