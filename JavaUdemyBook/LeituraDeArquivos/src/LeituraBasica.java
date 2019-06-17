@@ -1,10 +1,10 @@
-package Exercicios;
+package Leitura;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 //Author: Renan Henrique da Silva Abbade
-public class Programa {// Lendo a aquivos básico
+public class LeituraBasica {// Lendo a aquivos básico
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
