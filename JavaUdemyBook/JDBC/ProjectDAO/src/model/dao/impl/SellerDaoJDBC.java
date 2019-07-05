@@ -53,20 +53,8 @@ public class SellerDaoJDBC implements SellerDao {
 			//Para apontar para a posicao 1, fazemos o seguinte:
 			if ( rs.next() ) {
 				//Testar se veio algum resultado, se o IF vier significa que nao veio nulo
-				Department dep = new Department();
-				
-				dep.setId(rs.getInt("DepartmentId"));//Fiz uma var aux que vai receber a coluna na qual está o Id do departamento
-				
-				dep.setName(rs.getString("DepName"));//Aqui eu pelo o valor da coluna do nome do departamento
-				
-				Seller obj = new Seller();//Crio obj Seller apontando para Dept
-				
-				obj.setId(rs.getInt("Id"));//No caso eu pego o valor da coluna chamada Id
-				obj.setName(rs.getString("Name"));
-				obj.setEmail(rs.getString("Email"));
-				obj.setBaseSalary(rs.getDouble("BaseSalary"));
-				obj.setBirthDay(rs.getDate("BirthDate"));
-				obj.setDepartment(dep);//Recebe o obj Department que criamos aqui
+				Department dep = instantiateDepartment(rs); //Para tornar o codigo mais enxuto eu coloquei em métodos as instanciações
+				Seller obj = instanciateSeller(rs, dep);
 				
 				return obj;//Retornando Vendedor por ID
 			}
@@ -81,6 +69,30 @@ public class SellerDaoJDBC implements SellerDao {
 		}
 		
 		}
+
+	private Seller instanciateSeller(ResultSet rs, Department dep) throws SQLException {//Propagando Exception
+		Seller obj = new Seller();//Crio obj Seller apontando para Dept
+		
+		obj.setId(rs.getInt("Id"));//No caso eu pego o valor da coluna chamada Id
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setBirthDay(rs.getDate("BirthDate"));
+		obj.setDepartment(dep);//Recebe o obj Department que criamos aqui
+		
+		return obj;
+		
+	}
+
+	private Department instantiateDepartment(ResultSet rs) throws SQLException { //Throws eu propago a Exception, para ser tratado no codigo fora da funcao pelo Try/Catch With Resources
+		 Department dep = new Department();
+			
+			dep.setId(rs.getInt("DepartmentId"));//Fiz uma var aux que vai receber a coluna na qual está o Id do departamento
+			
+			dep.setName(rs.getString("DepName"));//Aqui eu pelo o valor da coluna do nome do departamento
+			
+		return dep;
+	}
 
 	@Override
 	public List<Seller> findAll() {
