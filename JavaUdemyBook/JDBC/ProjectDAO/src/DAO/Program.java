@@ -18,10 +18,12 @@ public class Program {
 		por instanciar implementações do meu DAO
 		 */
 		Department obj = new Department(1, "Games");
-		Seller seller = new Seller(21, "Bob", "bob@gmail.com", new Date(), 4000.0, obj);
+		
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		//Aqui vou chamar a fabrica de DAOS, meu programa n conhece a implementacao, somente a interface
+		Seller seller = sellerDao.findById(3);
 		
+		System.out.println(seller);
 		
 	}
 
