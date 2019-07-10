@@ -1,6 +1,6 @@
 package DAO;
 
-import java.util.Date;
+import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -30,6 +30,12 @@ public class Program {
 		
 		System.out.println(seller);
 		
+		System.out.println("Test 3 - Seller findByDep");
+		Department depart = new Department(2, null);
+		List <Seller> list = sellerDao.findByDepartment(depart);
+		for (Seller obj1 : list) {
+			System.out.println("obj: "+ obj1);
+		}
 	}
 
 }

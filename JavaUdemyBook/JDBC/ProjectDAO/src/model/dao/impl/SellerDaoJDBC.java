@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DAO.DB;
 import DAO.DbException;
@@ -98,6 +101,50 @@ public class SellerDaoJDBC implements SellerDao {
 	public List<Seller> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Seller> findByDepartment(Department department) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "WHERE DepartmentId = ? "
+					+ "ORDER BY Name");
+			
+			st.setInt(1, department.getId());
+			
+			rs = st.executeQuery();
+			
+			//Para guardar os valores gerados pelo ResultSet, precisarei de uma lista que sera populada pelo While abaixo
+			List<Seller> list = new ArrayList<>();
+			//Para controlar a não repetição de obj, criamos este Map
+			Map<Integer, Department> map = new HashMap<>();
+			
+			while (rs.next()) {
+				//O meu resultado pode ter 0 ou mais valores, se tornando um While, percorrer o rs enquanto tiver um proximo
+				Department dep = map.get(rs.getInt("DepartmentId")); //No map que eu criei, vou guardar qualquer departamento que eu instanciar, e cada vez que passar do While testarei se ele ja existe indo ao meu Map e buscando com o metodo get se já existe um departament com o mesmo id
+				//Vou testar se esse departamento já existe(Controle com o objetivo de não criar dois objetos iguais de departamento
+				if (dep == null) {//Se o DEP foi igual a nulo, significa que ele nao existia, entao instancio esse dep
+					dep = instantiateDepartment(rs); //Para tornar o codigo mais enxuto eu coloquei em métodos as instanciações
+					map.put(rs.getInt("DepartmentId"),dep);//Guardando no meu map (key, dep)
+				}
+				Seller obj = instanciateSeller(rs, dep);
+				list.add(obj);
+
+			}
+			//Se o RS.NEXT dar nulo, ele vai pular o if e vai dar false, entao vou retornar nulo
+			return list;
+		}catch ( SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+			//Não é necessario fechar a conn pois existem varios metodos que vao necessitar da Conn
+		}
 	}
 
 }
