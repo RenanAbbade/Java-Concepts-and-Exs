@@ -1,6 +1,8 @@
 package DAO;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -8,6 +10,7 @@ import model.dao.SellerDao;
 public class Program {
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		
 		/*	Para cada entidade, deve-se ter um objeto
 		responsavel por fazer o acesso a dados 
@@ -36,6 +39,31 @@ public class Program {
 		for (Seller obj1 : list) {
 			System.out.println("obj: "+ obj1);
 		}
+		
+		System.out.println("Test 4 - Seller findAll");
+		list = sellerDao.findAll();
+		for (Seller obj1 : list) {
+			System.out.println("obj: "+ obj1);
+		}
+		System.out.println("Test 5 - Seller INSERT");
+		Seller nSeller = new Seller(null, "Saulo", "sauloarono@itauunibanco.com", new Date(), 8000.0, depart);
+		sellerDao.insert(nSeller);
+		System.out.println("Inserted! new ID = "+ nSeller.getId());
+		
+		System.out.println("Test 6 - Seller UPDATE");
+		seller = sellerDao.findById(1); //Carrego os dados desse ID no meu Seller
+		seller.setName("Bruno Barreiro");
+		sellerDao.update(seller);
+		System.out.println("Update Completed");
+		
+		System.out.println("Test 7 - Seller DELETE");
+		System.out.println("Entre com um ID para deletar: ");
+		int id = sc.nextInt();
+		sellerDao.deleteById(id);
+		System.out.println("Delete Completed");
+		
 	}
+	
+		
 
 }

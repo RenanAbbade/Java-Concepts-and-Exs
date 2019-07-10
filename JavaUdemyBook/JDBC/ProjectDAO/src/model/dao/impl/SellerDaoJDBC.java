@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,22 +26,100 @@ public class SellerDaoJDBC implements SellerDao {
 	
 	@Override
 	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO seller "
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDay().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
-
+	
+	
+	
 	@Override
 	public void update(Seller obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE seller "
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+					+ " WHERE Id = ?");
+			
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDay().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			st.setInt(6, obj.getId());
+			
+			st.executeUpdate();
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
+	
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"DELETE FROM seller "
+					+ " WHERE Id = ?");
+			st.setInt(1, id);
+			
+			//Criando teste caso o Id n exista
+			int linhas = st.executeUpdate();
+			
+			if (linhas == 0) {
+				throw new DbException("ID não existe!");
+			}
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+		}
+		
 		
 	}
 
+	
+	
 	@Override
 	public Seller findById(Integer id) {
 		PreparedStatement st = null;
@@ -73,6 +152,8 @@ public class SellerDaoJDBC implements SellerDao {
 		
 		}
 
+	
+	
 	private Seller instanciateSeller(ResultSet rs, Department dep) throws SQLException {//Propagando Exception
 		Seller obj = new Seller();//Crio obj Seller apontando para Dept
 		
@@ -87,6 +168,8 @@ public class SellerDaoJDBC implements SellerDao {
 		
 	}
 
+	
+	
 	private Department instantiateDepartment(ResultSet rs) throws SQLException { //Throws eu propago a Exception, para ser tratado no codigo fora da funcao pelo Try/Catch With Resources
 		 Department dep = new Department();
 			
@@ -97,12 +180,52 @@ public class SellerDaoJDBC implements SellerDao {
 		return dep;
 	}
 
+	
+	
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "ORDER BY Name");
+			
+			rs = st.executeQuery();
+			
+			//Para guardar os valores gerados pelo ResultSet, precisarei de uma lista que sera populada pelo While abaixo
+			List<Seller> list = new ArrayList<>();
+			//Para controlar a não repetição de obj, criamos este Map
+			Map<Integer, Department> map = new HashMap<>();
+			
+			while (rs.next()) {
+				//O meu resultado pode ter 0 ou mais valores, se tornando um While, percorrer o rs enquanto tiver um proximo
+				Department dep = map.get(rs.getInt("DepartmentId")); //No map que eu criei, vou guardar qualquer departamento que eu instanciar, e cada vez que passar do While testarei se ele ja existe indo ao meu Map e buscando com o metodo get se já existe um departament com o mesmo id
+				//Vou testar se esse departamento já existe(Controle com o objetivo de não criar dois objetos iguais de departamento
+				if (dep == null) {//Se o DEP foi igual a nulo, significa que ele nao existia, entao instancio esse dep
+					dep = instantiateDepartment(rs); //Para tornar o codigo mais enxuto eu coloquei em métodos as instanciações
+					map.put(rs.getInt("DepartmentId"),dep);//Guardando no meu map (key, dep)
+				}
+				Seller obj = instanciateSeller(rs, dep);
+				list.add(obj);
+
+			}
+			//Se o RS.NEXT dar nulo, ele vai pular o if e vai dar false, entao vou retornar nulo
+			return list;
+		}catch ( SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+			//Não é necessario fechar a conn pois existem varios metodos que vao necessitar da Conn
+		}
 	}
 
+	
+	
+	
 	@Override
 	public List<Seller> findByDepartment(Department department) {
 		PreparedStatement st = null;
