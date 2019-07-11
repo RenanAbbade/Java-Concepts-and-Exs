@@ -1,11 +1,14 @@
 package DAO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import model.dao.DaoFactory;
+import model.dao.DepartmentDAO;
 import model.dao.SellerDao;
+import model.dao.impl.DepartmentDaoJDBC;
 
 public class Program {
 
@@ -62,7 +65,18 @@ public class Program {
 		sellerDao.deleteById(id);
 		System.out.println("Delete Completed");
 		
+		System.out.println("Test 8 - Department - Insert ");
+		Department dep = new Department(null, "Games");
+		DepartmentDAO depDAO = DaoFactory.createDepDao();//Crio a instancia da minha classe de DAO por meio da interface criadora de DAO
+		depDAO.insert(dep);
+		List<Department> list1 = new ArrayList<>();
+		list1 = depDAO.findAll();
+		for (Department depp : list1) {
+			System.out.println(depp);
+		}
 	}
+	//SellerDao sellerDao = DaoFactory.createSellerDao();
+	
 	
 		
 

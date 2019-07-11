@@ -105,8 +105,8 @@ public class SellerDaoJDBC implements SellerDao {
 			//Criando teste caso o Id n exista
 			int linhas = st.executeUpdate();
 			
-			if (linhas == 0) {
-				throw new DbException("ID não existe!");
+			if (linhas == 0) {//Caso peça pra deletar um ID não existente
+				throw new DbException("Codigo inexistente!");
 			}
 			
 		} catch (SQLException e) {
