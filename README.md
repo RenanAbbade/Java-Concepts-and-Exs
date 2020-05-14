@@ -1,5 +1,5 @@
 # JAVA<br>
-<h1>Estudos e exercícios da linguagem de programação JAVA</h1>
+<h3>Estudos e exercícios da linguagem de programação JAVA</h3>
 
 Assuntos abordados:<br>
 -Lógica de peogramação em Java (Decisão, loops).<br>
