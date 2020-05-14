@@ -11,4 +11,12 @@ Assuntos abordados:<br><br>
 -JDBC / CRUD<br><br>
 -JavaFX
 
+Wiki com aspcetos teóricos de:
+-JDBC
+-JAVA EE
+-JSP / SERVLETS
+-DESIGN PATTERNS
+-INTERFACE SERIALIZABLE
+
+
 
